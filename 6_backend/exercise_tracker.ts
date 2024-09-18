@@ -42,24 +42,27 @@ export const exercise = new Hono()
       return success ? data : c.text('Invalid!', 401)
     }),
     async (c) => {
-      const id = c.req.param('id')
-      const user = await db.users.find(id)
-      if (!user) {
+      const _id = c.req.param('id')
+      const record = await db.users.find(_id)
+      if (!record) {
         return c.text('User not found!', 404)
       }
-      user.value.log.push(c.req.valid('form'))
-      user.value.count++
-      const { ok } = await db.users.update(id, { count:user.value.count, log: user.value.log })
-      console.log(id, ok,user.value)
+      const {value} = record
+      value.log.push(c.req.valid('form'))
+      value.count++
+      const {count, log } = value
+      const { ok } = await db.users.update(_id, { count, log})
+      const json = { _id, ...value }
+      console.log(json)
       return ok
-        ? c.json({ ...user.value, _id: id })
+        ? c.json(json)
         : c.text('Failed to add log entry.', 500)
     },
   )
   .get('/:id/logs', async (c) => {
-    const id = c.req.param('id')
+    const _id = c.req.param('id')
     const { from, to, limit } = c.req.query()
-    const user = await db.users.find(id)
+    const user = await db.users.find(_id)
     if (!user) {
       return c.text('User not found!', 404)
     }
@@ -75,5 +78,5 @@ export const exercise = new Hono()
     if (limit) {
       value.log = value.log.slice(0, parseInt(limit))
     }
-    return c.json({ ...value, _id: id })
+    return c.json({ _id, ...value })
   })
