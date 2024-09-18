@@ -50,6 +50,7 @@ export const exercise = new Hono()
       user.value.log.push(c.req.valid('form'))
       user.value.count++
       const { ok } = await db.users.update(id, { count:user.value.count, log: user.value.log })
+      console.log(id, ok,user)
       return ok
         ? c.json({ ...user, _id: id })
         : c.text('Failed to add log entry.', 500)
