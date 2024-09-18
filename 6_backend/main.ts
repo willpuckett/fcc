@@ -3,7 +3,7 @@ import { marked } from 'npm:marked'
 import { cors } from '@hono/hono/cors'
 
 // Routes
-import { file_upload } from './file_upload.tsx'
+import { file_upload, Main } from './file_upload.tsx'
 import { exercise } from './exercise_tracker.ts'
 import { header_parser } from './header_parser.ts'
 import { shorturl } from './shorturl.ts'
@@ -19,11 +19,7 @@ const api = new Hono()
 const app = new Hono()
   .use(cors())
   .route('/api', api)
-  .get(
-    '/',
-    async (c) =>
-      c.html(await marked(await Deno.readTextFile('./6_backend/README.md'))),
-  )
+  .get('/', (c) => c.html(Main()))
 
 export type AppType = typeof app
 

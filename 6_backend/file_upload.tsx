@@ -1,13 +1,11 @@
-import { Context, Hono } from '@hono/hono'
+import { Hono } from '@hono/hono'
 import { logger } from '@hono/hono/logger'
 
 // Hang rountes at /file in main.ts
 export const file_upload = new Hono()
   .use(logger())
-  .get('/', (c: Context) => {
-    return c.html(Main())
-  })
-  .post('/', async (c: Context) => {
+  .get('/', (c) => c.html(Main()))
+  .post('/', async (c) => {
     const body = await c.req.parseBody()
     const file = body['upfile'] as File
     if (!file) {
@@ -18,8 +16,6 @@ export const file_upload = new Hono()
   })
 
 export const Main = () => (
-  <>
-    {/* {{ __html: "!DOCTYPE html" }} */}
     <html>
       <head>
         <title>File Metadata</title>
@@ -64,5 +60,5 @@ export const Main = () => (
         </div>
       </body>
     </html>
-  </>
+
 )
