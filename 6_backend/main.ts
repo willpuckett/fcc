@@ -14,11 +14,11 @@ const api = new Hono()
   .route('/shorturl', shorturl)
   .route('/users', exercise)
   .route('/', timestamp)
+  .route('/fileanalyse', file_upload)
 
 const app = new Hono()
   .use(cors())
   .route('/api', api)
-  .route('/file', file_upload)
   .get(
     '/',
     async (c) =>
