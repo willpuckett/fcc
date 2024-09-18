@@ -24,7 +24,7 @@ export const shorturl = new Hono()
     const id = c.req.param('id')
     const { value: url } = await kv.get<string>(['short_url', id])
     if (!url) {
-      return c.json({ error: 'url not found' })
+      return c.json({ error: 'invalid url' })
     }
     return c.redirect(url as unknown as string)
   })

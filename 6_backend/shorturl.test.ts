@@ -7,7 +7,7 @@ Deno.test('Routes', async (t) => {
   await t.step('GET', async () => {
     const res = await shorturl.request('/1234')
     const { error } = await res.json()
-    assert(error === 'url not found')
+    assert(error === 'invalid url')
   }),
     await t.step('POST', async () => {
       const res = await shorturl.request('/', {
