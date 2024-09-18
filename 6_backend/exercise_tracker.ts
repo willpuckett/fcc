@@ -65,13 +65,13 @@ export const exercise = new Hono()
   .get('/:id/logs', async (c) => {
     const _id = c.req.param('id')
     const { from, to, limit } = c.req.query()
-    const user = await db.users.find(_id)
-    if (!user) {
+    const record = await db.users.find(_id)
+    if (!record) {
       return c.text('User not found!', 404)
     }
-    const { value } = user
+    const { value } = record
     value.log = value.log.filter(({ date }) => {
-      const d = new Date(date!)
+      const d = new Date(date)
       const f = new Date(from)
       const t = new Date(to)
       if (from && d < f) return false
@@ -81,5 +81,6 @@ export const exercise = new Hono()
     if (limit) {
       value.log = value.log.slice(0, parseInt(limit))
     }
+    console.log(value)
     return c.json({ _id, ...value })
   })
