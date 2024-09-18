@@ -70,6 +70,7 @@ export const exercise = new Hono()
       return c.text('User not found!', 404)
     }
     const { value } = record
+    console.log(value)
     value.log = value.log.filter(({ date }) => {
       const d = new Date(date)
       const f = new Date(from)
