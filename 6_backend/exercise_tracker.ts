@@ -70,7 +70,7 @@ export const exercise = new Hono()
       return c.text('User not found!', 404)
     }
     const { value } = record
-    console.log(value)
+    console.log(value.log)
     value.log = value.log.filter(({ date }) => {
       const d = new Date(date)
       const f = new Date(from)
@@ -79,6 +79,7 @@ export const exercise = new Hono()
       if (to && d > t) return false
       return true
     })
+    console.log(value.log)
     if (limit) {
       value.log = value.log.slice(0, parseInt(limit))
     }
