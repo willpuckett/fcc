@@ -79,10 +79,10 @@ export const exercise = new Hono()
       if (to && d > t) return false
       return true
     })
-    console.log(value.log)
+    console.log(value.log, )
     if (limit) {
       value.log = value.log.slice(0, parseInt(limit))
     }
     console.log(c.req.query(), value)
-    return c.json({ _id, ...value })
+    return c.json({ _id, ...value,  count: value.log.length})
   })
