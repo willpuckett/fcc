@@ -49,7 +49,7 @@ export const exercise = new Hono()
       const { value } = record
       value.count++
       const { username, count } = value
-      const { ok } = await db.users.update(_id, {count, log: [log] })
+      const { ok } = await db.users.update(_id, { count, log: [log] })
       const json = { _id, username, ...log }
       console.log(JSON.stringify(json))
       return ok ? c.json(json) : c.text('Failed to add log entry.', 500)
@@ -79,10 +79,10 @@ export const exercise = new Hono()
       if (to && d > t) return false
       return true
     })
-    console.log(value.log )
+    console.log(value.log)
     if (limit) {
       value.log = value.log.slice(0, parseInt(limit))
     }
     console.log(c.req.query(), value)
-    return c.json({ _id, ...value,  count: value.log.length})
+    return c.json({ _id, ...value, count: value.log.length })
   })

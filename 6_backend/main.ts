@@ -1,6 +1,6 @@
 import { Hono } from '@hono/hono'
-import { marked } from 'npm:marked'
 import { cors } from '@hono/hono/cors'
+// import { marked } from 'npm:marked'
 
 // Routes
 import { file_upload, Main } from './file_upload.tsx'
