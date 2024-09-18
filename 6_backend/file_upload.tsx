@@ -20,20 +20,47 @@ export const file_upload = new Hono()
 export const Main = () => (
   <>
     {/* {{ __html: "!DOCTYPE html" }} */}
-    <html lang='en'>
+    <html>
+      <head>
+        <title>File Metadata</title>
+        <link
+          rel='shortcut icon'
+          href='https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png'
+          type='image/x-icon'
+        />
+        <link
+          href='https://fonts.googleapis.com/css?family=Roboto'
+          rel='stylesheet'
+          type='text/css'
+        />
+        <link href='/public/style.css' rel='stylesheet' type='text/css' />
+      </head>
+
       <body>
-        <div style='text-align:center; display: flex; justify-content: center; align-items: center; height: 33vh; border: 3px solid green;'>
-          <p>Give me your file</p>
+        <div class='container'>
+          <h1>API Project: File Metadata Microservice</h1>
+
+          <h2>Usage:</h2>
+          <p>
+            Please Upload a File ...
+          </p>
+          <div class='view'>
+            <h3 id='output'></h3>
+            <form
+              enctype='multipart/form-data'
+              method='post'
+              action='/api/fileanalyse'
+            >
+              <input id='inputfield' type='file' name='upfile' />
+              <input id='button' type='submit' value='Upload' />
+            </form>
+          </div>
         </div>
-        <div style='text-align:center; display: flex; justify-content: center; align-items: center; height: 33vh; border: 3px solid green;'>
-          <form
-            enctype='multipart/form-data'
-            method='post'
-            action='/api/fileanalyse'
-          >
-            <input id='inputfield' type='file' name='upfile' />
-            <input id='button' type='submit' value='Upload' />
-          </form>
+        <div class='footer'>
+          <p>
+            by
+            <a href='http://www.freecodecamp.com'>freeCodeCamp</a>
+          </p>
         </div>
       </body>
     </html>

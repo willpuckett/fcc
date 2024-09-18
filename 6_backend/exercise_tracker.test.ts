@@ -59,7 +59,7 @@ Deno.test('Routes', async (t) => {
       console.log(body)
       const res = await exercise.request(`/${id}/exercises`, {
         method: 'POST',
-        body
+        body,
       })
       const json = await res.json()
       const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
@@ -72,7 +72,7 @@ Deno.test('Routes', async (t) => {
       body.append('duration', duration())
       const res = await exercise.request(`/${id}/exercises`, {
         method: 'POST',
-        body
+        body,
       })
       const json = await res.json()
       const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
@@ -85,7 +85,7 @@ Deno.test('Routes', async (t) => {
       body.append('duration', duration())
       const res = await exercise.request(`/44444/exercises`, {
         method: 'POST',
-        body
+        body,
       })
       const text = await res.text()
       assert(text === 'User not found!')
