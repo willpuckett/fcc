@@ -1,0 +1,86 @@
+{
+  "tasks": {
+    "start": "DENO_FUTURE=1 deno -RNE --watch 6_backend/main.ts",
+    // Updates dependencies with ensuring pass tests
+    "deps": "deno -A https://deno.land/x/udd/main.ts deno.jsonc --test=\"deno task test\"",
+    // Hooks install
+    "hooks:install": "deno -R=deno.json,deno.jsonc,.git/hooks/ -W=.git/hooks/ jsr:@hongminhee/deno-task-hooks",
+    // @todo commit-msg not working
+    // Lints and formats staged files
+    "hooks:pre-commit": "export FILES=$(git diff --staged --name-only --diff-filter=ACMR \"*.ts\") && deno eval \"Deno.env.get('FILES')==='' || Deno.exit(1)\" || ( deno lint \"$FILES\" &&  deno fmt \"$FILES\")",
+    // Pre-push hook
+    "hooks:pre-push": "deno task test",
+    // Runs the tests: R: Read, N: Network, r: reload
+    "test": "deno test -RNr",
+    // Shows uncovered lists
+    "cov": "deno test -RNr --coverage && deno coverage",
+    // Runs lint, check format and test
+    "ci": "deno lint && deno fmt --check && deno task test"
+  },
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.6.1",
+    "@hono/valibot-validator": "npm:@hono/valibot-validator@^0.3.0",
+    "@olli/kvdex": "jsr:@olli/kvdex@^2.1.0",
+    "@std/assert": "jsr:@std/assert@^1.0.5",
+    "@valibot/valibot": "jsr:@valibot/valibot@^0.42.0",
+    "ssx/jsx-runtime": "https://deno.land/x/ssx@v0.1.1/jsx-runtime.ts"
+  },
+  "lock": false,
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "ssx"
+  },
+  "unstable": [
+    "fmt-html",
+    "fmt-css",
+    "fmt-yaml",
+    "fmt-component",
+    "kv"
+  ],
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "exclude": [
+      "cov_profile"
+    ]
+  },
+  "lint": {
+    "exclude": [
+      "cov_profile"
+    ]
+  }
+}
+
+// Run `deno task hooks:install` to install hooks
+// {
+//   "lock": false,
+//   "tasks": {
+//     // Starts local server
+//     "server": "deno -RNE --watch server.ts",
+//     // Updates dependencies with ensuring pass tests
+//     "deps": "deno -A https://deno.land/x/udd/main.ts deno.jsonc --test=\"deno task test\"",
+//     // Hooks install
+//     "hooks:install": "deno -R=deno.json,deno.jsonc,.git/hooks/ -W=.git/hooks/ jsr:@hongminhee/deno-task-hooks",
+//     // @todo commit-msg not working
+//     // Lints and formats staged files
+//     "hooks:pre-commit": "export FILES=$(git diff --staged --name-only --diff-filter=ACMR \"*.ts\") && deno eval \"Deno.env.get('FILES')==='' || Deno.exit(1)\" || ( deno lint \"$FILES\" &&  deno fmt \"$FILES\")",
+//     // Pre-push hook
+//     "hooks:pre-push": "deno task test",
+//     // Runs the tests
+//     "test": "deno test --reload -R",
+//     // Shows uncovered lists
+//     "cov": "deno task test --coverage=cov_profile && deno coverage cov_profile",
+//     // Runs lint, check format and test
+//     "ci": "deno lint && deno fmt --check && deno task test"
+//   },
+//   "imports": {
+//     "@std/assert": "jsr:@std/assert@^1.0.3",
+//     "https://deno.land/std/encoding/_yaml/loader/loader.ts": "https://deno.land/std@0.179.0/encoding/_yaml/loader/loader.ts#=",
+//     "markdown": "https://deno.land/x/markdown@v2.0.0/mod.ts",
+//     "ssx/jsx-runtime": "https://deno.land/x/ssx@v0.1.1/jsx-runtime.ts"
+//   },
+//   "compilerOptions": {
+//     "jsx": "precompile",
+//     "jsxImportSource": "ssx"
+//   },
+// }
