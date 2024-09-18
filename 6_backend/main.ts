@@ -1,5 +1,6 @@
 import { Hono } from '@hono/hono'
 import { marked } from 'npm:marked'
+import { cors } from '@hono/hono/cors'
 
 // Routes
 import { file_upload } from './file_upload.tsx'
@@ -15,6 +16,7 @@ const api = new Hono()
   .route('/', timestamp)
 
 const app = new Hono()
+  .use(cors())
   .route('/api', api)
   .route('/file', file_upload)
   .get(
