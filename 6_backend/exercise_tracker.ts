@@ -37,8 +37,8 @@ export const exercise = new Hono()
     '/:id/exercises',
     validator('form', (value, c) => {
       console.log(value)
-      const { success, data } = ExerciseSchema.safeParse(value)
-      console.log(value, success, data)
+      const { success, data , error} = ExerciseSchema.safeParse(value)
+      console.log(success, data, error)
       return success ? data : c.text('Invalid!', 401)
     }),
     async (c) => {
