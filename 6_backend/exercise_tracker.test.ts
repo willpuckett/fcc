@@ -6,27 +6,7 @@ import { db, UserSchema } from './db.ts'
 
 Deno.test('Routes', async (t) => {
   let id = ''
-  const duration = () => Math.floor(Math.random() * 100)
-  const log1 = {
-    description: 'yoga',
-    duration: duration(),
-  }
-  const log2 = {
-    description: 'running',
-    duration: duration(),
-  }
-  const log3 = {
-    description: 'swimming',
-    duration: duration(),
-  }
-  const log4 = {
-    description: 'cycling',
-    duration: duration(),
-  }
-  const log5 = {
-    description: 'hiking',
-    duration: duration(),
-  }
+  const duration = () => (Math.floor(Math.random() * 100)).toString()
   await t.step('GET:USERLIST:EMPTY', async () => {
     const res = await exercise.request('/')
     const json = await res.json()
@@ -73,10 +53,13 @@ Deno.test('Routes', async (t) => {
       assert(parsed.data.map((u) => u._id).includes(id))
     }),
     await t.step('POST:LOGS:VALID', async () => {
+      const body = new FormData()
+      body.append('description', 'swimming')
+      body.append('duration', duration())
+      console.log(body)
       const res = await exercise.request(`/${id}/exercises`, {
         method: 'POST',
-        body: JSON.stringify(log1),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body
       })
       const json = await res.json()
       const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
@@ -84,43 +67,12 @@ Deno.test('Routes', async (t) => {
       assert(parsed.success)
     }),
     await t.step('POST:LOGS:VALID', async () => {
+      const body = new FormData()
+      body.append('description', 'running')
+      body.append('duration', duration())
       const res = await exercise.request(`/${id}/exercises`, {
         method: 'POST',
-        body: JSON.stringify(log2),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-      })
-      const json = await res.json()
-      const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
-        .safeParse(json)
-      assert(parsed.success)
-    }),
-    await t.step('POST:LOGS:VALID', async () => {
-      const res = await exercise.request(`/${id}/exercises`, {
-        method: 'POST',
-        body: JSON.stringify(log3),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-      })
-      const json = await res.json()
-      const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
-        .safeParse(json)
-      assert(parsed.success)
-    }),
-    await t.step('POST:LOGS:VALID', async () => {
-      const res = await exercise.request(`/${id}/exercises`, {
-        method: 'POST',
-        body: JSON.stringify(log4),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-      })
-      const json = await res.json()
-      const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
-        .safeParse(json)
-      assert(parsed.success)
-    }),
-    await t.step('POST:LOGS:VALID', async () => {
-      const res = await exercise.request(`/${id}/exercises`, {
-        method: 'POST',
-        body: JSON.stringify(log5),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body
       })
       const json = await res.json()
       const parsed = z.union([UserSchema, z.object({ _id: z.string() })])
@@ -128,13 +80,12 @@ Deno.test('Routes', async (t) => {
       assert(parsed.success)
     }),
     await t.step('POST:LOGS:INVALID', async () => {
+      const body = new FormData()
+      body.append('description', 'yoga')
+      body.append('duration', duration())
       const res = await exercise.request(`/44444/exercises`, {
         method: 'POST',
-        body: JSON.stringify({
-          description: 'yoga',
-          duration: Math.floor(Math.random() * 100),
-        }),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body
       })
       const text = await res.text()
       assert(text === 'User not found!')

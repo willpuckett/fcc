@@ -5,7 +5,7 @@ export const kv = await Deno.openKv()
 
 export const ExerciseSchema = z.object({
   description: z.string(),
-  duration: z.number(),
+  duration: z.coerce.number().positive(),
   date: z.string().default(() => (new Date()).toDateString()),
 })
 

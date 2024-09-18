@@ -35,8 +35,9 @@ export const exercise = new Hono()
   })
   .post(
     '/:id/exercises',
-    validator('json', (value, c) => {
+    validator('form', (value, c) => {
       const { success, data } = ExerciseSchema.safeParse(value)
+      console.log(value, success, data)
       return success ? data : c.text('Invalid!', 401)
     }),
     async (c) => {
@@ -46,7 +47,7 @@ export const exercise = new Hono()
         return c.text('User not found!', 404)
       }
       let { count, log } = user.value
-      log.push(c.req.valid('json'))
+      log.push(c.req.valid('form'))
       count++
       const { ok } = await db.users.update(id, { count, log })
       return ok
