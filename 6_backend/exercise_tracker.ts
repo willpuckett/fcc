@@ -36,9 +36,7 @@ export const exercise = new Hono()
   .post(
     '/:id/exercises',
     validator('form', (value, c) => {
-      console.log(value)
-      const { success, data , error} = ExerciseSchema.safeParse(value)
-      console.log(success, data, error)
+      const { success, data } = ExerciseSchema.safeParse(value)
       return success ? data : c.text('Invalid!', 401)
     }),
     async (c) => {
@@ -53,7 +51,7 @@ export const exercise = new Hono()
       const {count, log } = value
       const { ok } = await db.users.update(_id, { count, log})
       const json = { _id, ...value }
-      console.log(json)
+      console.log(JSON.stringify(json))
       return ok
         ? c.json(json)
         : c.text('Failed to add log entry.', 500)
