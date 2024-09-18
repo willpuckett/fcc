@@ -12,10 +12,11 @@ export const shorturl = new Hono()
   .post(
     '/',
     validator('form', async (value, c) => {
-      const { success, data } = z.string().url().safeParse(value.url)
+      const { success, data } = z.string().transform(v => (new URL(v)).host).safeParse(value.url)
       if (!success) return c.json({ error: 'invalid url' })
-      const {address} = await promises.lookup(data)
-      return address ? data : c.json({ error: 'invalid url' })
+      const {address, family} = await promises.lookup(data)
+    console.log(data, address, family)
+      return address ? value.url as string : c.json({ error: 'invalid url' })
     }),
     async (c) => {
       const original_url = c.req.valid('form')
