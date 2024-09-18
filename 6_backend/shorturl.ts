@@ -3,7 +3,7 @@ import { validator } from '@hono/hono/validator'
 import { logger } from '@hono/hono/logger'
 import { z } from 'npm:zod'
 import { kv } from './db.ts'
-import { lookup } from 'node:dns'
+import { promises } from 'node:dns'
 
 // Hang routes at /api/shorturl in main.ts
 
@@ -11,9 +11,11 @@ export const shorturl = new Hono()
   .use(logger())
   .post(
     '/',
-    validator('form', (value, c) => {
+    validator('form', async (value, c) => {
       const { success, data } = z.string().url().safeParse(value.url)
-      return success ? data : c.json({ error: 'invalid url' })
+      if (!success) return c.json({ error: 'invalid url' })
+      const {address} = await promises.lookup(data)
+      return address ? data : c.json({ error: 'invalid url' })
     }),
     async (c) => {
       const original_url = c.req.valid('form')
