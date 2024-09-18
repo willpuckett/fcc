@@ -81,6 +81,6 @@ export const exercise = new Hono()
     if (limit) {
       value.log = value.log.slice(0, parseInt(limit))
     }
-    console.log(value)
+    console.log(from, to, limit, value)
     return c.json({ _id, ...value })
   })
