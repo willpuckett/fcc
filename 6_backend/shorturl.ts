@@ -17,7 +17,8 @@ export const shorturl = new Hono()
       if (!success) return c.json({ error: 'invalid url' })
       try {
         await promises.lookup(data)
-      } catch {
+      } catch (e) {
+        console.log(value.url, success, data, e.message)
         return c.json({ error: 'invalid url' })
       }
       return value.url as string
