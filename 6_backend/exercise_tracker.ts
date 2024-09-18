@@ -47,10 +47,9 @@ export const exercise = new Hono()
       if (!user) {
         return c.text('User not found!', 404)
       }
-      let { count, log } = user.value
-      log.push(c.req.valid('form'))
-      count++
-      const { ok } = await db.users.update(id, { count, log })
+      user.value.log.push(c.req.valid('form'))
+      user.value.count++
+      const { ok } = await db.users.update(id, { count:user.value.count, log: user.value.log })
       return ok
         ? c.json({ ...user, _id: id })
         : c.text('Failed to add log entry.', 500)
