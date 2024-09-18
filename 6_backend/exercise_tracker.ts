@@ -48,15 +48,23 @@ export const exercise = new Hono()
       const {value} = record
       value.log.push(c.req.valid('form'))
       value.count++
-      const {count, log } = value
+      const {username, count, log } = value
       const { ok } = await db.users.update(_id, { count, log})
-      const json = { _id, ...value }
+      const json = { _id, username, ...c.req.valid('form') }
       console.log(JSON.stringify(json))
       return ok
         ? c.json(json)
         : c.text('Failed to add log entry.', 500)
     },
   )
+
+  // {
+  //   username: "fcc_test",
+  //   description: "test",
+  //   duration: 60,
+  //   date: "Mon Jan 01 1990",
+  //   _id: "5fb5853f734231456ccb3b05"
+  // }
   .get('/:id/logs', async (c) => {
     const _id = c.req.param('id')
     const { from, to, limit } = c.req.query()
