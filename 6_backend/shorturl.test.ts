@@ -4,7 +4,7 @@ import { shorturl } from './shorturl.ts'
 Deno.test('Routes', async (t) => {
   const url = 'https://apple.com'
   const body = new FormData()
-  body.append('url', url) 
+  body.append('url', url)
   let test_return_url = ''
   await t.step('GET', async () => {
     const res = await shorturl.request('/1234')

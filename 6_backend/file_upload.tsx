@@ -26,9 +26,13 @@ export const Main = () => (
           <p>Give me your file</p>
         </div>
         <div style='text-align:center; display: flex; justify-content: center; align-items: center; height: 33vh; border: 3px solid green;'>
-        <form enctype="multipart/form-data" method="post" action="/api/fileanalyse">
-            <input id="inputfield" type="file" name="upfile" />
-            <input id="button" type="submit" value="Upload" />
+          <form
+            enctype='multipart/form-data'
+            method='post'
+            action='/api/fileanalyse'
+          >
+            <input id='inputfield' type='file' name='upfile' />
+            <input id='button' type='submit' value='Upload' />
           </form>
         </div>
       </body>
