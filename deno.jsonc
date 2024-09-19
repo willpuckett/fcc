@@ -31,10 +31,10 @@
     "jsxImportSource": "ssx"
   },
   "unstable": [
-    "fmt-html",
-    "fmt-css",
-    "fmt-yaml",
-    "fmt-component",
+    // "fmt-html",
+    // "fmt-css",
+    // "fmt-yaml",
+    // "fmt-component",
     "kv"
   ],
   "fmt": {
