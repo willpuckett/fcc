@@ -2,7 +2,7 @@
   "tasks": {
     "start": "DENO_FUTURE=1 deno -RNE --watch 6_backend/main.ts",
     // Updates dependencies with ensuring pass tests
-    "deps": "deno -A https://deno.land/x/udd/main.ts deno.jsonc --test=\"deno task test\"",
+    "deps": "DENO_FUTURE=1 deno -A https://deno.land/x/udd/main.ts deno.jsonc --test=\"deno task test\"",
     // Hooks install
     "hooks:install": "deno -R=deno.json,deno.jsonc,.git/hooks/ -W=.git/hooks/ jsr:@hongminhee/deno-task-hooks",
     // @todo commit-msg not working
@@ -11,11 +11,11 @@
     // Pre-push hook
     "hooks:pre-push": "deno task test",
     // Runs the tests: R: Read, N: Network, r: reload
-    "test": "deno test -RNr",
+    "test": "DENO_FUTURE=1 deno test -RNr",
     // Shows uncovered lists
-    "cov": "deno test -RNr --coverage && deno coverage",
+    "cov": "DENO_FUTURE=1 deno test -RNr --coverage && deno coverage",
     // Runs lint, check format and test
-    "ci": "deno lint && deno fmt --check && deno task test"
+    "ci": "DENO_FUTURE=1 deno lint && DENO_FUTURE=1 deno fmt --check && deno task test"
   },
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.6.1",

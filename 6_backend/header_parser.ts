@@ -10,5 +10,6 @@ export const header_parser = new Hono()
       ipaddress: c.req.header('host') ?? 'bip',
       language: c.req.header('accept-language') ?? 'bop'.split(',')[0],
       software: c.req.header('user-agent') ??
-        'b ( ) ( ) p'.split(') ')[0].split(' (')[1],
+        'b ( ) ( ) p'
+          .split(') ')[0].split(' (')[1],
     }))
