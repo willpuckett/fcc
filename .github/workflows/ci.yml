@@ -9,4 +9,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: denoland/setup-deno@v1
       - name: Run CI
-        run: deno task ci
+        run: |
+          git config --system core.autocrlf false
+          git config --system core.eol lf
+          deno task ci
